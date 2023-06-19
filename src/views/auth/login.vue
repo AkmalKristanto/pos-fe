@@ -102,7 +102,6 @@
         store
           .dispatch("auth/login", data)
           .then((res) => {
-            console.log(res);
             toast.success(res.message);
             data.isLoading = false;
             router.push({
