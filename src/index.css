@@ -1,0 +1,135 @@
+:root {
+  --barlow-family: "Barlow", sans-serif;
+  --righteous-family: "Righteous", sans-serif;
+
+  --orange05: #fdf2e1;
+  --orange1: #fadfb3;
+  --orange2: #f6ca83;
+  --orange3: #f3b452;
+  --orange4: #f1a530;
+  --orange5: #ef9618;
+  --orange6: #eb8915;
+  --orange7: #e57c12;
+  --orange8: #de6d0f;
+  --orange9: #d4550c;
+
+  --purple05: #f3e5f1;
+  --purple1: #e3bedc;
+  --purple2: #d193c6;
+  --purple3: #bd68b0;
+  --purple4: #ae499f;
+  --purple5: #9e2d90;
+  --purple6: #92288a;
+  --purple7: #812282;
+  --purple8: #731d7a;
+  --purple9: #57156a;
+
+  --pink05: #f8e5f3;
+  --pink1: #efbfe2;
+  --pink2: #e995cf;
+  --pink3: #e66bbb;
+  --pink4: #e54aa9;
+  --pink5: #e82796;
+  --pink6: #d5278f;
+  --pink7: #be2686;
+  --pink8: #a7257e;
+  --pink9: #7f2270;
+
+  --neutral: #0a0a0a;
+  --neutral0: #f5f5f5;
+  --neutral1: #fafafa;
+  --neutral2: #eeeeee;
+  --neutral3: #e0e0e0;
+  --neutral4: #bdbdbd;
+  --neutral5: #9e9e9e;
+  --neutral6: #757575;
+  --neutral7: #616161;
+  --neutral8: #424242;
+  --neutral9: #212121;
+
+  --navy: #241d52;
+  --navy05: #eaebf4;
+  --navy1: #c9cce4;
+  --navy2: #a7abd2;
+  --navy3: #6d70b2;
+  --navy4: #6d70b2;
+  --navy5: #5657a5;
+  --navy6: #504f9b;
+  --navy7: #47458f;
+  --navy8: #3f3b83;
+  --navy9: #332a6c;
+
+  --white: #ffffff;
+  --red: #d40c0c;
+  --wa-color: #00b628;
+
+  --green05: #e3fcef;
+  --green5: #006644;
+}
+
+p {
+  font-size: 14px;
+}
+
+a {
+  font-size: 14px;
+  color: var(--neutral8);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--navy3);
+  text-decoration: underline;
+}
+
+.bnb {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  height: 57px;
+  /* padding: 0 16px; */
+  /* background: #f2f2f2; */
+  -webkit-box-shadow: 0px -2px 3px rgba(175, 175, 175, 0.75);
+  -moz-box-shadow: 0px -2px 3px rgba(175, 175, 175, 0.75);
+  box-shadow: 0px -2px 3px rgba(175, 175, 175, 0.75);
+}
+
+.content {
+  min-height: calc(100vh - 57px);
+}
+
+.box {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bnb a {
+  width: calc(100vw / 4);
+  text-decoration: none;
+  color: var(--navy3);
+}
+.bnb a:hover {
+  color: var(--navy8);
+}
+
+.label-bnb {
+  font-size: 10px;
+  margin: 0;
+}
+
+.navbar {
+  height: 47px;
+  margin: 0;
+  border-bottom: 1px lightgray solid;
+}
+
+.dropdown-item{
+    font-size: 14px;
+}
+

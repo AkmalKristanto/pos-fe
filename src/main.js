@@ -8,6 +8,12 @@ import "vue-toastification/dist/index.css";
 import { createPopper } from '@popperjs/core';
 window.createPopper = createPopper;
 
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
+
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+
 //bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -24,6 +30,8 @@ dom.watch();
 
 const app = createApp(App);
 app.component("font-awesome-icon", FontAwesomeIcon);
+app.use(VueSweetalert2);
+app.use(ElementPlus);
 app.use(Toast)
 app.use(store);
 app.use(router);

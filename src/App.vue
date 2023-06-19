@@ -1,17 +1,23 @@
 <template>
-  <div>
-    <button class="btn btn-warning">Primary Button</button>
-    <form>
-      <div class="mb-3">
-        <label for="exampleInput" class="form-label">Example Input</label>
-        <input
-          type="text"
-          class="form-control"
-          id="exampleInput"
-          placeholder="Enter something"
-        />
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+  <div v-if="$route.meta.requiresAuth">
+    <nav class="navbar navbar-expand-lg"></nav>
+    <div class="content text-center container">
+      <!-- Content -->
+      <router-view></router-view>
+      <!-- End Content -->
+    </div>
+    <Menu />
+  </div>
+
+  <div v-else>
+    <router-view></router-view>
   </div>
 </template>
+<script>
+  import "./index.css";
+  import Menu from "@/components/layouts/menu";
+  export default {
+    name: "AppComponents",
+    components: { Menu },
+  };
+</script>

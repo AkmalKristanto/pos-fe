@@ -41,10 +41,16 @@ Api.interceptors.response.use(
         if (error.response) {
             // Respons diterima dengan kode status di luar kisaran 2xx
             if (error.response.status > 400) {
-                localStorage.removeItem('tokenadmin_')
+                localStorage.removeItem('tokenfepos_')
                 return Promise.reject(error.response.data.message)
             }
-            return Promise.reject(error.response.data.message)
+
+            if (typeof error.response.data.message === 'undefined') {
+                return Promise.reject(error.response.data.error)
+            } else {
+                console.log('check is defined');
+                return Promise.reject(error.response.data.message)
+            }
         } else if (error.request) {
             // Tidak ada respons yang diterima
             return Promise.reject(error.request)
