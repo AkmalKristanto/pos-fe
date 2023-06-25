@@ -247,11 +247,6 @@ p button.sub-text.active .checked {
   display: flex !important;
 }
 
-/* p button.sub-text .fa{
-display: none;
-
-} */
-
 a {
   color: var(--navy9);
   -webkit-transition: all 500ms;
@@ -283,7 +278,6 @@ a.white:hover {
 
 p {
   color: var(--neutral);
-
   font-size: 14px;
 }
 

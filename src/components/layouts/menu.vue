@@ -1,13 +1,13 @@
 <template>
   <div class="bnb">
-    <a href="#" class="box"
+    <router-link :to="{name:'cart'}"  class="box"
       ><i class="fa fa-shopping-cart" aria-hidden="true"></i>
       <p class="label-bnb">Cart</p>
-    </a>
-    <a href="#" class="box"
+    </router-link>
+    <router-link :to="{name:'menu'}" class="box"
       ><i class="fa fa-bars" aria-hidden="true"></i>
       <p class="label-bnb">Menu</p>
-    </a>
+    </router-link>
     <a href="#" class="box"
       ><i class="fa fa-history" aria-hidden="true"></i>
       <p class="label-bnb">History</p>
