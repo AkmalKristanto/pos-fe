@@ -28,6 +28,24 @@ const routes = [
          requiresAuth: true,
       },
    },
+   {
+      path: "/history",
+      name: "history",
+      component: () => import("@/views/menu/history.vue"),
+      meta: {
+         title: "History",
+         requiresAuth: true,
+      },
+   },
+   {
+      path: "/settings",
+      name: "settings",
+      component: () => import("@/views/menu/settings.vue"),
+      meta: {
+         title: "Settings",
+         requiresAuth: true,
+      },
+   },
 ];
 
 const router = createRouter({

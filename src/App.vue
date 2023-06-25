@@ -1,8 +1,8 @@
 <template>
   <div v-if="$route.meta.requiresAuth">
-    <nav class="navbar fixed-top navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-light bg-light p-0">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Fixed top</a>
+        <a class="navbar-brand" href="#">Header</a>
       </div>
     </nav>
     <div class="">
