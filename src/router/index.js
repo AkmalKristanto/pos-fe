@@ -38,6 +38,15 @@ const routes = [
       },
    },
    {
+      path: "/history/:id_order",
+      name: "history-detail",
+      component: () => import("@/views/history_detail/HistoryDetail.vue"),
+      meta: {
+         title: "History Detail",
+         requiresAuth: true,
+      },
+   },
+   {
       path: "/settings",
       name: "settings",
       component: () => import("@/views/menu/settings.vue"),

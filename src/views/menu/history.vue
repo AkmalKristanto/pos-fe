@@ -7,20 +7,21 @@
             </div>
             <div>
                 <div v-for="(item) in data.list" :key="item.id" class="border-bottom mb-2 pb-2">
-                    <a class="fw-semibold d-flex align-items-center" data-bs-toggle="collapse"
-                        :href="'#collapse_history' + item.id" role="button" aria-expanded="false" :aria-controls="'collapse_history' + item.id">
+                    <a class="fw-semibold d-flex align-items-center" data-bs-toggle="collapse" :href="'#collapse_history' + item.id" role="button"
+                        aria-expanded="false" :aria-controls="'collapse_history' + item.id">
                         <i class="fa fa-chevron-right me-2" aria-hidden="true"></i>
                         {{ item.day }}
                     </a>
                     <div class="collapse my-2 text-start" :id="'collapse_history' + item.id">
-                        <div v-for="(value, index) in item.data_list" :key="index" class="d-flex align-items-start justify-content-between">
+                        <router-link v-for="(value, index) in item.data_list" :key="index" :to="{ name: 'history-detail', params: { id_order: 1 } }"
+                            class="d-flex align-items-start justify-content-between mb-2">
                             <div>
                                 <p class="m-0">{{ value.name }}</p>
                                 <p class="m-0 sub sub-text">{{ value.type }}</p>
                             </div>
                             <p class="m-0">{{ value.date }}</p>
                             <p class="m-0">{{ value.total }}</p>
-                        </div>
+                        </router-link>
                     </div>
                 </div>
             </div>

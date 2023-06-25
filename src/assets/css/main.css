@@ -370,6 +370,16 @@ a:hover {
   top: 57px;
 }
 
+.breadcrumb{
+  font-size: 14px;
+}
+.breadcrumb .breadcrumb-item{
+  font-weight: 600;
+}
+.breadcrumb .breadcrumb-item.active{
+  font-weight: normal;
+}
+
 [data-bs-toggle="collapse"][aria-expanded="false"] .fa-chevron-right {
   transform: rotate(0deg);
   transition: all 0.3s ease;
