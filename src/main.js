@@ -20,6 +20,7 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 import "./assets/css/main.css";
 
+import mixins from "./mixins";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -38,4 +39,5 @@ app.use(ElementPlus);
 app.use(Toast)
 app.use(store);
 app.use(router);
+app.mixin(mixins);
 app.mount('#app')

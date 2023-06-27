@@ -55,6 +55,15 @@ const routes = [
          requiresAuth: true,
       },
    },
+   {
+      path: "/kelola-produk",
+      name: "kelola-produk",
+      component: () => import("@/views/produk/produk.vue"),
+      meta: {
+         title: "Kelola Produk",
+         requiresAuth: true,
+      },
+   },
 ];
 
 const router = createRouter({
