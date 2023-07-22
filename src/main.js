@@ -1,11 +1,12 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+/* eslint-disable vue/multi-word-component-names */
+import { createApp } from "vue";
+import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
-import { createPopper } from '@popperjs/core';
+import { createPopper } from "@popperjs/core";
 window.createPopper = createPopper;
 
 import ElementPlus from "element-plus";
@@ -15,10 +16,12 @@ import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
 //bootstrap
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js';
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.js";
 
 import "./assets/css/main.css";
+
+// import Multiselect from 'vue-multiselect'
 
 import mixins from "./mixins";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -33,11 +36,12 @@ import { dom } from "@fortawesome/fontawesome-svg-core";
 dom.watch();
 
 const app = createApp(App);
+// app.component("Multiselect", Multiselect);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(VueSweetalert2);
 app.use(ElementPlus);
-app.use(Toast)
+app.use(Toast);
 app.use(store);
 app.use(router);
 app.mixin(mixins);
-app.mount('#app')
+app.mount("#app");

@@ -1,18 +1,7 @@
 <template>
-  <button
-    style="display: none"
-    data-bs-target="#modalCustom"
-    data-bs-toggle="modal"
-    id="buka"
-  ></button>
+  <button style="display: none" data-bs-target="#modalCustom" data-bs-toggle="modal" id="buka"></button>
 
-  <div
-    class="modal fade"
-    id="modalCustom"
-    tabindex="-1"
-    aria-labelledby="modalCustom"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="modalCustom" tabindex="-1" aria-labelledby="modalCustom" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -21,56 +10,35 @@
         <div class="modal-body text-start">
           <div class="border-bottom mb-2">
             <label for="" class="form-label fw-bold">Add On</label>
-            <div
-              class="ms-2 mb-2 d-flex align-items-center justify-content-between"
-              v-for="(item, index) in get_detail.add_on"
-              :key="index"
-            >
+            <div class="ms-2 mb-2 d-flex align-items-center justify-content-between" v-for="(item, index) in get_detail.add_on" :key="index">
               <label class="form-check-label" for="flexRadioDefault1">
                 {{ item.nama }}
               </label>
-              <input
-                class="form-check-input"
-                type="radio"
-                name="flexRadioDefault"
-                id="flexRadioDefault1"
-                :value="`${item.id_produk_add_on}#${item.nama}`"
-                v-model="id_produk_add_on"
-                checked
-              />
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                :value="`${item.id_produk_add_on}#${item.nama}`" v-model="id_produk_add_on" checked />
             </div>
           </div>
           <div class="border-bottom mb-2">
             <label for="" class="form-label fw-bold">Varian</label>
-            <div
-              class="ms-2 mb-2 d-flex align-items-center justify-content-between"
-              v-for="(item, index) in get_detail.varian"
-              :key="index"
-            >
+            <div class="ms-2 mb-2 d-flex align-items-center justify-content-between" v-for="(item, index) in get_detail.varian" :key="index">
               <label class="form-label" for="flexShot1"> {{ item.nama_varian }} </label>
-              <input
-                class="form-check-input"
-                type="radio"
-                name="radioShot"
-                id="flexShot1"
-                :value="`${item.id_produk_varian}#${item.nama_varian}`"
-                v-model="id_produk_varian"
-                checked
-              />
+              <input class="form-check-input" type="radio" name="radioShot" id="flexShot1" :value="`${item.id_produk_varian}#${item.nama_varian}`"
+                v-model="id_produk_varian" checked />
             </div>
           </div>
-          <div class="mb-2">
-            <div class="form-group">
+          <div class=" border-bottom mb-2">
+            <div class="form-group mb-2">
               <label for="additional" class="form-label">Additional</label>
-              <input
-                type="text"
-                name="additional"
-                id="additional"
-                v-model="keterangan"
-                class="form-control"
-                placeholder="Additional"
-                aria-describedby="helpId"
-              />
+              <input type="text" name="additional" id="additional" v-model="keterangan" class="form-control" placeholder="Additional"
+                aria-describedby="helpId" />
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-between">
+            <label for="" class="form-label m-0">QTY</label>
+            <div class="d-flex align-items-center justify-content-end gap-3">
+              <button class="btn" @click="decrementQty"><i class="fa fa-minus" aria-hidden="true"></i></button>
+              <h6 class="m-0">{{ data.qty }}</h6>
+              <button class="btn" @click="incrementQty"><i class="fa fa-plus" aria-hidden="true"></i></button>
             </div>
           </div>
         </div>
@@ -88,99 +56,6 @@
     </div>
   </div>
 </template>
-<script>
-  import { watch, ref, computed } from "vue";
-  import { useStore } from "vuex";
-  import { useToast } from "vue-toastification";
-  import { useRouter } from "vue-router";
-  export default {
-    name: "DetailProdukComponents",
-    props: {
-      id_produk: {
-        type: Number,
-        required: true,
-      },
-    },
-    setup(props) {
-      const toast = useToast();
-      const store = useStore();
-      const router = useRouter();
+<script src="./DetailProduk.js">
 
-      const id = ref("");
-      const id_produk_add_on = ref("");
-      const id_produk_varian = ref("");
-      const nama_produk = ref("");
-      const harga = ref("");
-      const keterangan = ref("");
-      const cart = ref(JSON.parse(localStorage.getItem("posfe_cart")) || []);
-
-      watch(
-        () => props.id_produk,
-        (newValue) => {
-          id.value = newValue;
-
-          detail();
-          document.getElementById("buka").click();
-        }
-      );
-
-      const get_detail = computed(() => {
-        return store.getters["menu/getDetailProduk"];
-      });
-
-      const detail = async () => {
-        store.dispatch("menu/detailProduk", { id: id.value }).then((result) => {
-          harga.value = result.harga;
-          nama_produk.value = result.nama_produk;
-        });
-      };
-
-      const simpan = async () => {
-        let addons = id_produk_add_on.value.split("#");
-        let varian = id_produk_varian.value.split("#");
-        const temp = {
-          id_produk: id.value,
-          id_produk_add_on: addons[0],
-          id_produk_varian: varian[0],
-          label_add_on: addons[1],
-          label_varian: varian[1],
-          nama_produk: nama_produk.value,
-          qty: 1,
-          harga: harga.value,
-          harga_total: harga.value * 1,
-          keterangan: keterangan.value,
-        };
-
-        cart.value.push(temp);
-        localStorage.setItem("posfe_cart", JSON.stringify(cart.value));
-        toast.success("berhasil add to cart!");
-
-        reset_form();
-
-        router.push({
-          name: "cart",
-        });
-      };
-
-      function reset_form() {
-        id_produk_add_on.value = "";
-        id_produk_varian.value = "";
-        nama_produk.value = "";
-        harga.value = "";
-        keterangan.value = "";
-
-        document.getElementById("close").click();
-      }
-
-      return {
-        detail,
-        get_detail,
-        id_produk_add_on,
-        id_produk_varian,
-        keterangan,
-        simpan,
-        harga,
-      };
-    },
-  };
 </script>

@@ -1,18 +1,10 @@
 <template>
   <div class="content">
     <div class="container">
-      <div
-        class="d-flex align-items-center justify-content-between border-bottom py-1 mb-4"
-      >
-        <a href="#" type="button">New Customer<i class="fas fa-edit ms-2"></i></a>
+      <div class="d-flex align-items-center justify-content-between border-bottom py-1 mb-4">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#customerModal" type="button">New Customer<i class="fas fa-edit ms-2"></i></a>
         <div class="dropdown">
-          <a
-            class="dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
+          <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span v-if="status == 1">Dine In</span>
             <span v-else-if="status == 2">Take Away</span>
             <span v-else>-</span>
@@ -25,11 +17,7 @@
       </div>
       <p v-if="cart.length == 0">Tidak Ada Produk</p>
       <div v-else class="cart-content overflow-y-auto">
-        <div
-          v-for="(item, index) in cart"
-          :key="index"
-          class="d-flex gap-2 align-items-center justify-content-between mb-3"
-        >
+        <div v-for="(item, index) in cart" :key="index" class="d-flex gap-2 align-items-center justify-content-between mb-3">
           <div class="d-flex gap-3 align-items-center">
             <div class="border p-1 rounded-1">
               <p class="m-0 sub">{{ item.qty }}x</p>
@@ -75,11 +63,7 @@
       <button class="btn w-100" :class="[{ disable: cart.length <= 0 }]">
         Draft Bill
       </button>
-      <button
-        @click="clearBill"
-        class="btn w-100"
-        :class="[{ disable: cart.length <= 0 }]"
-      >
+      <button @click="clearBill" class="btn w-100" :class="[{ disable: cart.length <= 0 }]">
         Clear Bill
       </button>
     </div>
@@ -87,61 +71,88 @@
       Check Out
     </button>
   </div>
+
+  <div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="customerModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-start">
+        <div class="form-group">
+          <label for="" class="form-label">Customer Name</label>
+          <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+        </div>
+      </div>
+      <div class="modal-footer w-100">
+          <div class="d-flex align-items-center justify-content-end gap-2 w-100">
+            <button type="button" id="close" class="btn" data-bs-dismiss="modal">
+              <i class="fa-solid fa-xmark me-2"></i>Cancel
+            </button>
+            <button type="button" @click="simpan" class="btn btn-primary">
+              <i class="fa fa-check me-2" aria-hidden="true"></i>Save
+            </button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
 </template>
 <script>
-  import { ref, onMounted } from "vue";
-  import { useToast } from "vue-toastification";
-  import Swal from "sweetalert2";
-  export default {
-    name: "MenuComponents",
-    setup() {
-      const toast = useToast();
-      const total = ref(0);
-      const subtotal = ref(0);
-      const tax = ref(0);
-      const service = ref(0);
-      const status = ref(0);
-      const cart = ref([]);
+import { ref, onMounted } from "vue";
+import { useToast } from "vue-toastification";
+import Swal from "sweetalert2";
+export default {
+  name: "MenuComponents",
+  setup() {
+    const toast = useToast();
+    const total = ref(0);
+    const subtotal = ref(0);
+    const tax = ref(0);
+    const service = ref(0);
+    const status = ref(0);
+    const cart = ref([]);
 
-      const clearBill = async () => {
-        if (cart.value.length < 1) {
-          return;
-        }
+    const clearBill = async () => {
+      if (cart.value.length < 1) {
+        return;
+      }
 
-        Swal.fire({
-          icon: "info",
-          title: "apa anda yakin ingin menghapus bill ?",
-          showDenyButton: true,
-          confirmButtonText: "Ya, saya yakin",
-          denyButtonText: `Batalkan`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            localStorage.removeItem("posfe_cart");
-            cart.value = [];
-            toast.success("berhasil mengosongkan bill");
-          }
-        });
-      };
-
-      onMounted(() => {
-        if (JSON.parse(localStorage.getItem("posfe_cart"))?.length) {
-          cart.value = JSON.parse(localStorage.getItem("posfe_cart"));
-
-          cart.value.forEach((el) => {
-            subtotal.value = subtotal.value + el.harga_total;
-          });
-
-          total.value = subtotal.value + tax.value + service.value;
+      Swal.fire({
+        icon: "info",
+        title: "apa anda yakin ingin menghapus bill ?",
+        showDenyButton: true,
+        confirmButtonText: "Ya, saya yakin",
+        denyButtonText: `Batalkan`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem("posfe_cart");
+          cart.value = [];
+          toast.success("berhasil mengosongkan bill");
         }
       });
+    };
 
-      return {
-        total,
-        status,
-        subtotal,
-        clearBill,
-        cart,
-      };
-    },
-  };
+    onMounted(() => {
+      if (JSON.parse(localStorage.getItem("posfe_cart"))?.length) {
+        cart.value = JSON.parse(localStorage.getItem("posfe_cart"));
+
+        cart.value.forEach((el) => {
+          subtotal.value = subtotal.value + el.harga_total;
+        });
+
+        total.value = subtotal.value + tax.value + service.value;
+      }
+    });
+
+    return {
+      total,
+      status,
+      subtotal,
+      clearBill,
+      cart,
+    };
+  },
+};
 </script>
