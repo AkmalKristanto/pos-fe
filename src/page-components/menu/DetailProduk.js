@@ -24,7 +24,7 @@ export default {
     const cart = ref(JSON.parse(localStorage.getItem("posfe_cart")) || []);
 
     const data = reactive({
-      qty: 0,
+      qty: 1,
     });
 
     watch(
@@ -45,6 +45,8 @@ export default {
       store.dispatch("menu/detailProduk", { id: id.value }).then((result) => {
         harga.value = result.harga;
         nama_produk.value = result.nama_produk;
+        id_produk_add_on.value = 0
+        id_produk_varian.value = 0
       });
     };
 
@@ -58,9 +60,9 @@ export default {
         label_add_on: addons[1],
         label_varian: varian[1],
         nama_produk: nama_produk.value,
-        qty: 1,
+        qty: data.qty,
         harga: harga.value,
-        harga_total: harga.value * 1,
+        harga_total: harga.value * data.qty,
         keterangan: keterangan.value,
       };
 
@@ -86,11 +88,11 @@ export default {
     }
 
     function incrementQty() {
-      data.qty = data.qty + 1;
+      data.qty++
     }
     function decrementQty() {
-      if (data.qty > 0) {
-        data.qty = data.qty - 1;
+      if (data.qty > 1) {
+        data.qty--
       }
     }
 

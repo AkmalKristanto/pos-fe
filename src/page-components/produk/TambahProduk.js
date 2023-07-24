@@ -11,7 +11,7 @@ export default {
       required: false,
     },
   },
-  components:{
+  components: {
     Multiselect,
   },
   setup(props, { emit }) {

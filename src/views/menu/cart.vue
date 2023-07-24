@@ -1,13 +1,23 @@
 <template>
   <div class="content">
     <div class="container">
-      <div class="d-flex align-items-center justify-content-between border-bottom py-1 mb-4">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#customerModal" type="button">New Customer<i class="fas fa-edit ms-2"></i></a>
+      <div
+        class="d-flex align-items-center justify-content-between border-bottom py-1 mb-4"
+      >
+        <a href="#" data-bs-toggle="modal" data-bs-target="#customerModal" type="button"
+          >{{ nama_customer }}<i class="fas fa-edit ms-2"></i
+        ></a>
         <div class="dropdown">
-          <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a
+            class="dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             <span v-if="status == 1">Dine In</span>
             <span v-else-if="status == 2">Take Away</span>
-            <span v-else>-</span>
+            <span v-else>pilih tipe order</span>
           </a>
           <ul class="dropdown-menu text-start">
             <li @click="status = 1"><button class="dropdown-item">Dine In</button></li>
@@ -17,7 +27,11 @@
       </div>
       <p v-if="cart.length == 0">Tidak Ada Produk</p>
       <div v-else class="cart-content overflow-y-auto">
-        <div v-for="(item, index) in cart" :key="index" class="d-flex gap-2 align-items-center justify-content-between mb-3">
+        <div
+          v-for="(item, index) in cart"
+          :key="index"
+          class="d-flex gap-2 align-items-center justify-content-between mb-3"
+        >
           <div class="d-flex gap-3 align-items-center">
             <div class="border p-1 rounded-1">
               <p class="m-0 sub">{{ item.qty }}x</p>
@@ -63,96 +77,182 @@
       <button class="btn w-100" :class="[{ disable: cart.length <= 0 }]">
         Draft Bill
       </button>
-      <button @click="clearBill" class="btn w-100" :class="[{ disable: cart.length <= 0 }]">
+      <button
+        @click="clearBill"
+        class="btn w-100"
+        :class="[{ disable: cart.length <= 0 }]"
+      >
         Clear Bill
       </button>
     </div>
-    <button class="btn btn-primary w-100" :class="[{ disable: cart.length <= 0 }]">
+    <button
+      @click="checkout"
+      class="btn btn-primary w-100"
+      :class="[{ disable: cart.length <= 0 }]"
+    >
       Check Out
     </button>
   </div>
 
-  <div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="customerModalLabel"></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-start">
-        <div class="form-group">
-          <label for="" class="form-label">Customer Name</label>
-          <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+  <div
+    class="modal fade"
+    id="customerModal"
+    tabindex="-1"
+    aria-labelledby="customerModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="customerModalLabel"></h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
-      </div>
-      <div class="modal-footer w-100">
+        <div class="modal-body text-start">
+          <div class="form-group">
+            <label for="" class="form-label">Customer Name</label>
+            <input
+              type="text"
+              name=""
+              id=""
+              v-model="nama_customer"
+              class="form-control"
+              placeholder=""
+              aria-describedby="helpId"
+            />
+          </div>
+        </div>
+        <div class="modal-footer w-100">
           <div class="d-flex align-items-center justify-content-end gap-2 w-100">
             <button type="button" id="close" class="btn" data-bs-dismiss="modal">
               <i class="fa-solid fa-xmark me-2"></i>Cancel
             </button>
-            <button type="button" @click="simpan" class="btn btn-primary">
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="close"
+              data-bs-dismiss="modal"
+            >
               <i class="fa fa-check me-2" aria-hidden="true"></i>Save
             </button>
           </div>
         </div>
+      </div>
     </div>
   </div>
-</div>
 </template>
 <script>
-import { ref, onMounted } from "vue";
-import { useToast } from "vue-toastification";
-import Swal from "sweetalert2";
-export default {
-  name: "MenuComponents",
-  setup() {
-    const toast = useToast();
-    const total = ref(0);
-    const subtotal = ref(0);
-    const tax = ref(0);
-    const service = ref(0);
-    const status = ref(0);
-    const cart = ref([]);
+  import { ref, onMounted } from "vue";
+  import { useToast } from "vue-toastification";
+  import Swal from "sweetalert2";
+  import { useStore } from "vuex";
+  import { useRouter } from "vue-router";
+  export default {
+    name: "MenuComponents",
+    setup() {
+      const toast = useToast();
+      const store = useStore();
+      const router = useRouter();
 
-    const clearBill = async () => {
-      if (cart.value.length < 1) {
-        return;
-      }
+      const total = ref(0);
+      const subtotal = ref(0);
+      const tax = ref(0);
+      const service = ref(0);
+      const status = ref(0);
+      const nama_customer = ref("New Customer");
+      const cart = ref([]);
 
-      Swal.fire({
-        icon: "info",
-        title: "apa anda yakin ingin menghapus bill ?",
-        showDenyButton: true,
-        confirmButtonText: "Ya, saya yakin",
-        denyButtonText: `Batalkan`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          localStorage.removeItem("posfe_cart");
-          cart.value = [];
-          toast.success("berhasil mengosongkan bill");
+      const clearBill = async () => {
+        if (cart.value.length < 1) {
+          return;
+        }
+
+        Swal.fire({
+          icon: "info",
+          title: "apa anda yakin ingin menghapus bill ?",
+          showDenyButton: true,
+          confirmButtonText: "Ya, saya yakin",
+          denyButtonText: `Batalkan`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            localStorage.removeItem("posfe_cart");
+            cart.value = [];
+            toast.success("berhasil mengosongkan bill");
+          }
+        });
+      };
+
+      const checkout = async () => {
+        if (status.value < 1) {
+          Swal.fire({
+            icon: "error",
+            text: "pilih tipe order terlebih dahulu!",
+          }).then(() => {
+            return;
+          });
+        }
+
+        var param = {
+          nama_order: nama_customer.value,
+          jumlah: subtotal.value,
+          tax: 0,
+          service: 0,
+          total: subtotal.value,
+          array_produk: JSON.stringify(cart.value),
+          payment_method: 1, //1 Cash
+          type_order: status.value,
+        };
+
+        Swal.fire({
+          icon: "info",
+          title: "apa anda yakin ingin checkout pesanan ?",
+          showDenyButton: true,
+          confirmButtonText: "Ya, saya yakin",
+          denyButtonText: `Batalkan`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            store
+              .dispatch("cart/create_transaksi", param)
+              .then((res) => {
+                toast.success(res.message);
+                localStorage.removeItem("posfe_cart");
+                cart.value = [];
+                router.push({
+                  name: "menu",
+                });
+              })
+              .catch((error) => {
+                toast.error(error);
+              });
+          }
+        });
+      };
+
+      onMounted(() => {
+        if (JSON.parse(localStorage.getItem("posfe_cart"))?.length) {
+          cart.value = JSON.parse(localStorage.getItem("posfe_cart"));
+
+          cart.value.forEach((el) => {
+            subtotal.value = subtotal.value + el.harga_total;
+          });
+
+          total.value = subtotal.value + tax.value + service.value;
         }
       });
-    };
 
-    onMounted(() => {
-      if (JSON.parse(localStorage.getItem("posfe_cart"))?.length) {
-        cart.value = JSON.parse(localStorage.getItem("posfe_cart"));
-
-        cart.value.forEach((el) => {
-          subtotal.value = subtotal.value + el.harga_total;
-        });
-
-        total.value = subtotal.value + tax.value + service.value;
-      }
-    });
-
-    return {
-      total,
-      status,
-      subtotal,
-      clearBill,
-      cart,
-    };
-  },
-};
+      return {
+        total,
+        status,
+        subtotal,
+        nama_customer,
+        clearBill,
+        cart,
+        checkout,
+      };
+    },
+  };
 </script>

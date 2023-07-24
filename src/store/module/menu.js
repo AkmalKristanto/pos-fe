@@ -34,7 +34,6 @@ const menu = {
             return new Promise((resolve, reject) => {
                 Api.get(`/menu/detail?id_produk=${data.id}`)
                     .then(response => {
-                        console.log(response.data)
                         commit('SET_DETAIL_PRODUK', response.data)
                         resolve(response.data)
                     }).catch(error => {
