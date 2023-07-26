@@ -1,25 +1,26 @@
 <template>
   <button
     type="button"
-    id="addproduk"
+    id="bukaeditproduk"
     class="text-decoration-none btn btn-primary"
-    data-bs-target="#tambahProduk"
+    data-bs-target="#editProduk"
     data-bs-toggle="modal"
+    style="display: none"
   >
-    Tambah Produk
+    Ubah Produk
   </button>
 
   <div
     class="modal fade"
-    id="tambahProduk"
+    id="editProduk"
     tabindex="-1"
-    aria-labelledby="tambahProduk"
+    aria-labelledby="editProduk"
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Tambah Produk</h5>
+          <h5 class="modal-title">Ubah Produk</h5>
         </div>
         <div class="modal-body text-start">
           <div class="form-group required mb-2">
@@ -27,26 +28,27 @@
             <input
               class="form-control"
               placeholder="Nama Produk"
-              v-model="data.nama_produk"
+              v-model="data.edit.nama_produk"
               type="text"
             />
           </div>
           <div class="form-group mb-2">
             <label for="" class="form-label">Add On</label>
             <Multiselect
-              v-model="data.add_on"
               mode="tags"
-              :options="[]"
+              :options="addon"
+              v-model="addon"
+              :object="true"
               placeholder="Tambah Add On"
               :close-on-select="false"
               :searchable="true"
               :create-option="true"
+              :showOptions="false"
             />
           </div>
           <div class="form-group mb-2">
             <label for="" class="form-label">Variant</label>
             <Multiselect
-              v-model="data.varian"
               mode="tags"
               :options="[]"
               placeholder="Tambah Variant"
@@ -60,8 +62,8 @@
             <div class="custom-input-group position-relative w-100">
               <input
                 class="form-control right"
+                v-model="data.edit.harga"
                 placeholder="harga"
-                v-model="data.harga"
                 type="text"
               />
               <div class="prefix">
@@ -70,7 +72,7 @@
             </div>
           </div>
           <div class="form-group mb-2">
-            <label for="" class="form-label">Variant</label>
+            <label for="" class="form-label">Gambar Produk</label>
             <input
               class="form-control"
               placeholder="harga"
@@ -93,7 +95,7 @@
               <i class="fa-solid fa-xmark me-2"></i>Cancel
             </button>
             <button type="button" class="btn btn-primary" @click="save">
-              <i class="fa fa-edit me-2" aria-hidden="true"></i>Add
+              <i class="fa fa-edit me-2" aria-hidden="true"></i>Update
             </button>
           </div>
         </div>
@@ -102,4 +104,4 @@
   </div>
 </template>
 <style src="@vueform/multiselect/themes/default.css"></style>
-<script src="./TambahProduk.js"></script>
+<script src="./EditProduk.js"></script>

@@ -10,7 +10,7 @@
           class="avatar-l"
         />
         <div class="text-start">
-          <h6 class="m-0">Name</h6>
+          <h6 class="m-0">{{ profile.nama_outlet }}</h6>
           <p class="m-0">{{ profile.email }}</p>
           <div class="d-flex align-items-center gap-2 mt-2">
             <button class="btn btn-primary">Edit Profile</button>

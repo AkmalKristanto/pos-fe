@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import { reactive, watch, computed } from "vue";
 import { useStore } from "vuex";
 import { useToast } from "vue-toastification";
 import Multiselect from '@vueform/multiselect'
@@ -6,8 +6,12 @@ import Multiselect from '@vueform/multiselect'
 export default {
   name: "ModalTambahProdukComponents",
   props: {
-    trigger: {
-      type: Boolean,
+    id_produk: {
+      type: Number,
+      required: false,
+    },
+    edit: {
+      type: Object,
       required: false,
     },
   },
@@ -19,6 +23,8 @@ export default {
     const store = useStore();
 
     const data = reactive({
+      edit: "",
+      id_produk: "",
       isLoading: false,
       nama_produk: "",
       id_kategori: 1,
@@ -29,6 +35,16 @@ export default {
       harga: "",
       url_logo: "",
     });
+
+    watch(
+      () => [props.id_produk, props.edit],
+      (newValue) => {
+        data.id_produk = newValue[0]
+        data.edit = newValue[1]
+        // console.log(newValue[1])
+        document.getElementById("bukaeditproduk").click();
+      }
+    );
 
     const tambahAddon = async () => {
       data.add_on.push(data.temp_addon);
@@ -59,7 +75,6 @@ export default {
 
     const save = async () => {
       data.isLoading = true;
-
       data.add_on = data.add_on.join(", ");
       data.varian = data.varian.join(", ");
       store
@@ -76,6 +91,10 @@ export default {
         });
     };
 
-    return { data, tambahAddon, tambahVarian, set_logo, save };
+    const addon = computed(() => {
+      return store.getters["produk/getDetailAddon"];
+    });
+
+    return { data, tambahAddon, tambahVarian, set_logo, save, addon };
   },
 };
