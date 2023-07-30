@@ -8,7 +8,8 @@
       <div class="row align-items-center gy-4">
         <div class="col-lg-3 col-md-6 col-6" v-for="(item, index) in get_menu" :key="index" @click="detail(item.id_produk, parseInt(item.harga))">
           <a href="#" type="button" class="p-0 text-decoration-none">
-            <img :src="item.url_logo" :alt="item.nama_produk" class="card-img-top" />
+            <img v-if="item.url_logo!=null" :src="item.url_logo" :alt="item.nama_produk" class="card-img-top" />
+            <div v-else class="card-img-top d-flex align-items-center justify-content-center" >{{ item.nama_produk }}</div>
             <div class="card-body text-start">
               <p class="m-0">{{ item.nama_produk }}</p>
               <p class="sub sub-text m-0 mb-2">Avocado, Cappucino, Sugar</p>

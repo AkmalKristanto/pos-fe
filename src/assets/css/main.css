@@ -459,6 +459,7 @@ a:hover {
   padding: 67px 0 77px 0;
 }
 
+
 .bnb-menu {
   height: 100%;
   display: flex;
@@ -512,6 +513,25 @@ a:hover {
 .card-img-top{
   height: 200px;
   object-fit: cover;
+  margin: 0;
+}
+.card-body{
+ padding: 16px 0;
+}
+
+.card.pointer {
+  cursor: pointer;
+  margin: 0;
+  transition: all 0.2s ease;
+}
+.card.search {
+  border: 1px solid var(--neutral4) !important;
+  box-shadow: none;
+  /* height: 34px; */
+}
+
+.bg-yellow{
+  background-color: yellow;
 }
 
 .modal-footer,
@@ -579,6 +599,10 @@ a:hover {
   height: 160px;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.placeholder_banner {
+  height: 100px;
 }
 
 .multiselect input[type="text"] {
