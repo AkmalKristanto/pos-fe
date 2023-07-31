@@ -1,4 +1,4 @@
-import { reactive, watch, computed } from "vue";
+import { reactive, watch, ref } from "vue";
 import { useStore } from "vuex";
 import { useToast } from "vue-toastification";
 import Multiselect from '@vueform/multiselect'
@@ -35,39 +35,50 @@ export default {
       harga: "",
       url_logo: "",
     });
-
+    const fileInput = ref(null);
     watch(
       () => [props.id_produk, props.edit],
-      (newValue) => {
+      (newValue, oldValues) => {
         data.id_produk = newValue[0]
         data.edit = newValue[1]
-        // console.log(newValue[1])
+
+        var temp = []
+        var temp2 = []
+        if (newValue[1] != oldValues[1]) {
+          newValue[1].add_on.forEach(el => {
+            let data = {
+              label: el.nama,
+              value: el.id_produk_add_on
+            }
+            temp.push(data)
+          });
+          data.add_on = temp
+          newValue[1].varian.forEach(el => {
+            let data = {
+              label: el.nama_varian,
+              value: el.id_produk_varian
+            }
+            temp2.push(data)
+          });
+          data.varian = temp2
+        }
+
         document.getElementById("bukaeditproduk").click();
       }
     );
 
-    const tambahAddon = async () => {
-      data.add_on.push(data.temp_addon);
-      data.temp_addon = "";
-    };
-
-    const tambahVarian = async () => {
-      data.varian.push(data.temp_varian);
-      data.temp_varian = "";
-    };
-
     const set_logo = async () => {
       let a = document.getElementById("url_logo");
-      let b = document.getElementById("url_logo").files[0];
-      const [file] = a.files;
-      if (file) {
-        a.src = URL.createObjectURL(file);
+      let b = fileInput.value.files[0];
+
+      if (b) {
+        a.src = URL.createObjectURL(b);
 
         const reader = new FileReader();
         var rawImg;
         reader.onloadend = () => {
           rawImg = reader.result;
-          data.url_logo = rawImg;
+          data.edit.url_logo = rawImg;
         };
         reader.readAsDataURL(b);
       }
@@ -75,12 +86,14 @@ export default {
 
     const save = async () => {
       data.isLoading = true;
-      data.add_on = data.add_on.join(", ");
-      data.varian = data.varian.join(", ");
+      var a = data.add_on.map(obj => obj.label);
+      var b = data.varian.map(obj => obj.label);
+      data.edit.add_on = a.join(",");
+      data.edit.varian = b.join(",");
       store
-        .dispatch("produk/tambahProduk", data)
+        .dispatch("produk/ubahProduk", data.edit)
         .then((res) => {
-          document.getElementById("close").click();
+          document.getElementById("close_update").click();
           toast.success(res.message);
           data.isLoading = false;
           emit("get-produk", true);
@@ -91,10 +104,6 @@ export default {
         });
     };
 
-    const addon = computed(() => {
-      return store.getters["produk/getDetailAddon"];
-    });
-
-    return { data, tambahAddon, tambahVarian, set_logo, save, addon };
+    return { data, set_logo, save, fileInput };
   },
 };

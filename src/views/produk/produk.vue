@@ -37,7 +37,7 @@
       </div>
     </div>
   </div>
-  <DetailProduk :id_produk="id_produk" :edit="detailProduk" />
+  <DetailProduk @get-produk="handleProduk" :id_produk="id_produk" :edit="detailProduk" />
 </template>
 <script>
   import TambahProduk from "@/page-components/produk/tambah-produk";
@@ -85,6 +85,7 @@
               .dispatch("produk/delete", { id_produk: id })
               .then((res) => {
                 toast.success(res.message);
+                store.dispatch("produk/produk");
               })
               .catch((err) => {
                 toast.error(err);

@@ -1,8 +1,9 @@
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import { useStore } from "vuex";
 import { useToast } from "vue-toastification";
 import Multiselect from '@vueform/multiselect'
-
+import useVuelidate from "@vuelidate/core";
+import { required, helpers } from "@vuelidate/validators";
 export default {
   name: "ModalTambahProdukComponents",
   props: {
@@ -22,23 +23,29 @@ export default {
       isLoading: false,
       nama_produk: "",
       id_kategori: 1,
-      temp_addon: "",
-      temp_varian: "",
+      temp_addon: [],
+      temp_varian: [],
       add_on: [],
       varian: [],
       harga: "",
       url_logo: "",
     });
 
-    const tambahAddon = async () => {
-      data.add_on.push(data.temp_addon);
-      data.temp_addon = "";
-    };
+    const rules = computed(() => {
+      return {
+        nama_produk: {
+          required: helpers.withMessage("nama produk tidak boleh kosong", required),
+        },
+        harga: {
+          required: helpers.withMessage("harga tidak boleh kosong", required),
+        },
+        url_logo: {
+          required: helpers.withMessage("foto produk tidak boleh kosong", required),
+        },
+      };
+    });
 
-    const tambahVarian = async () => {
-      data.varian.push(data.temp_varian);
-      data.temp_varian = "";
-    };
+    const v$ = useVuelidate(rules, data);
 
     const set_logo = async () => {
       let a = document.getElementById("url_logo");
@@ -60,14 +67,32 @@ export default {
     const save = async () => {
       data.isLoading = true;
 
-      data.add_on = data.add_on.join(", ");
-      data.varian = data.varian.join(", ");
+      const res_form = await v$.value.$validate();
+
+      if (!res_form) {
+        data.isLoading = false;
+        return;
+      }
+
+      data.add_on = data.temp_addon.join(", ");
+      data.varian = data.temp_varian.join(", ");
+
       store
         .dispatch("produk/tambahProduk", data)
         .then((res) => {
           document.getElementById("close").click();
           toast.success(res.message);
-          data.isLoading = false;
+
+          data.isLoading = false
+          data.nama_produk = ""
+          data.id_kategori = 1
+          data.temp_addon = []
+          data.temp_varian = []
+          data.add_on = []
+          data.varian = []
+          data.harga = ""
+          data.url_logo = ""
+
           emit("get-produk", true);
         })
         .catch((error) => {
@@ -76,6 +101,6 @@ export default {
         });
     };
 
-    return { data, tambahAddon, tambahVarian, set_logo, save };
+    return { v$, data, set_logo, save };
   },
 };

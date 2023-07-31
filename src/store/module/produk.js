@@ -18,17 +18,26 @@ const produk = {
         },
         SET_PRODUK_DETAIL(state, produk) {
             state.detail = produk
+            // console.log(produk)
             var temp = []
+            var temp2 = []
             produk.add_on.forEach(el => {
                 let data = {
                     label: el.nama,
                     value: el.id_add_on
                 }
-
                 temp.push(data)
             });
+
+            produk.varian.forEach(el => {
+                let data = {
+                    label: el.nama_varian,
+                    value: el.id_produk_varian
+                }
+                temp2.push(data)
+            });
             state.detail_addon = temp
-            console.log(state.detail_addon)
+            state.detail_variant = temp2
         },
     },
     actions: {
@@ -65,6 +74,17 @@ const produk = {
                     })
             })
         },
+        ubahProduk({ commit }, data) {
+            return new Promise((resolve, reject) => {
+                Api.post('/produk/update', data)
+                    .then(response => {
+                        commit('SET_EMPTY', '')
+                        resolve(response)
+                    }).catch(error => {
+                        reject(error)
+                    })
+            })
+        },
         delete({ commit }, data) {
             return new Promise((resolve, reject) => {
                 Api.post('/produk/delete', data)
@@ -86,6 +106,9 @@ const produk = {
         },
         getDetailAddon(state) {
             return state.detail_addon;
+        },
+        getDetailVarian(state) {
+            return state.detail_variant;
         },
     }
 

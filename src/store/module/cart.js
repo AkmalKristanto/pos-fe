@@ -22,6 +22,17 @@ const cart = {
                     })
             })
         },
+        draft_transaksi({ commit }, data) {
+            return new Promise((resolve, reject) => {
+                Api.post(`/transaksi/draft`, data)
+                    .then(response => {
+                        commit('SET_EMPTY', '')
+                        resolve(response)
+                    }).catch(error => {
+                        reject(error)
+                    })
+            })
+        },
     },
     getters: {
     }

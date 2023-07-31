@@ -36,8 +36,7 @@
             <label for="" class="form-label">Add On</label>
             <Multiselect
               mode="tags"
-              :options="addon"
-              v-model="addon"
+              v-model="data.add_on"
               :object="true"
               placeholder="Tambah Add On"
               :close-on-select="false"
@@ -51,10 +50,13 @@
             <Multiselect
               mode="tags"
               :options="[]"
+              v-model="data.varian"
+              :object="true"
               placeholder="Tambah Variant"
               :close-on-select="false"
               :searchable="true"
               :create-option="true"
+              :showOptions="false"
             />
           </div>
           <div class="form-group required mb-2">
@@ -73,25 +75,37 @@
           </div>
           <div class="form-group mb-2">
             <label for="" class="form-label">Gambar Produk</label>
-            <input
-              class="form-control"
-              placeholder="harga"
-              id="url_logo"
-              type="file"
-              @change="set_logo"
-            />
-            <img
-              v-show="data.url_logo != ''"
-              :src="data.url_logo"
-              :alt="data.nama_produk"
-              :height="200"
-              :width="200"
-            />
+            <div
+              class="card search pointer w-auto text-center"
+              @click="$refs.fileInput.click()"
+            >
+              <input
+                type="file"
+                id="url_logo"
+                ref="fileInput"
+                class="d-none"
+                aria-describedby="helpId"
+                @change="set_logo"
+              />
+              <img
+                v-if="data.edit.url_logo != ''"
+                :src="data.edit.url_logo"
+                :alt="data.edit.nama_produk"
+                class="mb-2"
+              />
+              <div v-else class="text-center">
+                <img
+                  class="placeholder_banner mb-2"
+                  :src="require('@/assets/images/placeholder_image.svg')"
+                />
+                <h6 class="m-0 fw-normal">Foto Produk</h6>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer w-100">
           <div class="d-flex align-items-center justify-content-end gap-2 w-100">
-            <button type="button" id="close" class="btn" data-bs-dismiss="modal">
+            <button type="button" id="close_update" class="btn" data-bs-dismiss="modal">
               <i class="fa-solid fa-xmark me-2"></i>Cancel
             </button>
             <button type="button" class="btn btn-primary" @click="save">
