@@ -49,6 +49,11 @@
                 </div>
               </div>
               <div class="d-flex align-items-center justify-end gap-4">
+                <p class="m-0 sub">
+                  Keterangan
+                  KeteranganKeteranganKeteranganKeteranganKeteranganKeteranganKeteranganKeterangan
+                  KeteranganKeterangan
+                </p>
                 <p class="m-0 sub">Rp. {{ formatPrice(item.harga) }}</p>
                 <p class="m-0">Rp. {{ formatPrice(item.harga_total) }}</p>
               </div>
@@ -110,60 +115,6 @@
       </div>
     </div>
   </div>
-  <!-- <p v-if="cart.length == 0">Tidak Ada Produk</p>
-      <div v-else class="cart-content overflow-y-auto">
-        <div v-for="(item, index) in cart" :key="index" class="d-flex gap-2 align-items-center justify-content-between mb-3">
-          <div class="d-flex gap-3 align-items-center">
-            <div class="border p-1 rounded-1">
-              <p class="m-0 sub">{{ item.qty }}x</p>
-            </div>
-            <div class="text-start">
-              <p class="m-0">
-                {{ item.nama_produk }} •
-                <span class="sub sub-text">{{ item.label_varian }}</span>
-              </p>
-              <p class="m-0 sub sub-text">{{ item.label_add_on }}</p>
-            </div>
-          </div>
-          <div class="d-flex align-items-center justify-end gap-4">
-            <p class="m-0 sub">Rp. {{ formatPrice(item.harga) }}</p>
-            <p class="m-0">Rp. {{ formatPrice(item.harga_total) }}</p>
-          </div>
-        </div>
-      </div> -->
-  <!-- <div class="summary">
-    <div v-show="cart.length > 0" class="container">
-      <div class="divider mb-1"></div>
-      <div class="d-flex align-items-center justify-content-between">
-        <p class="m-0">Sub Total</p>
-        <p class="m-0">Rp. {{ formatPrice(subtotal) }}</p>
-      </div>
-      <div class="d-flex align-items-center justify-content-between">
-        <p class="m-0 ps-4">Tax</p>
-        <p class="sub m-0">0</p>
-      </div>
-      <div class="d-flex align-items-center justify-content-between mb-2">
-        <p class="m-0 ps-4">Services</p>
-        <p class="sub m-0">0</p>
-      </div>
-      <div class="d-flex align-items-center justify-content-between">
-        <p class="m-0">Total</p>
-        <p class="m-0">Rp. {{ formatPrice(total) }}</p>
-      </div>
-    </div>
-
-    <div class="d-flex align-items-center">
-      <button class="btn w-100" :class="[{ disable: cart.length <= 0 }]">
-        Draft Bill
-      </button>
-      <button @click="clearBill" class="btn w-100" :class="[{ disable: cart.length <= 0 }]">
-        Clear Bill
-      </button>
-    </div>
-    <button @click="checkout" class="btn btn-primary w-100" :class="[{ disable: cart.length <= 0 }]">
-      Check Out
-    </button>
-  </div> -->
 
   <div
     class="modal fade"

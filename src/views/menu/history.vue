@@ -101,7 +101,7 @@
                 <p class="m-0 sub sub-text">{{ value.type_order }}</p>
               </div>
               <p class="m-0">{{ value.created_at }}</p>
-              <p class="m-0">{{ formatPrice(value.total) }}</p>
+              <p class="m-0">Rp. {{ formatPrice(value.total) }}</p>
             </router-link>
           </div>
 

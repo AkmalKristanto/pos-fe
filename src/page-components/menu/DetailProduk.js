@@ -47,6 +47,7 @@ export default {
         nama_produk.value = result.nama_produk;
         id_produk_add_on.value = 0
         id_produk_varian.value = 0
+        data.qty = 0
       });
     };
 
