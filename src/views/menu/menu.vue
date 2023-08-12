@@ -10,7 +10,7 @@
           <a href="#" type="button" class="p-0 text-decoration-none">
             <img v-if="item.url_logo!=null" :src="item.url_logo" :alt="item.nama_produk" class="card-img-top" />
             <div v-else class="card-img-top d-flex align-items-center justify-content-center" >{{ item.nama_produk }}</div>
-            <div class="card-body text-start">
+            <div class="card-body text-start my-3 m-0">
               <p class="m-0">{{ item.nama_produk }}</p>
               <p class="sub sub-text m-0 mb-2">Avocado, Cappucino, Sugar</p>
               <p class="m-0">Rp. {{ formatPrice(item.harga) }}</p>
